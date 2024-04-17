@@ -6,6 +6,11 @@ from langchain.prompts import PromptTemplate
 from ctransformers import AutoModelForCausalLM
 from transformers import AutoTokenizer, M2M100ForConditionalGeneration
 
+if torch.cuda.is_available():
+  generator = torch.Generator('cuda').manual_seed(0)
+else:
+  generator = torch.Generator().manual_seed(0)
+  
 # Mistral configuration
 mistral_llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-Instruct-v0.1-GGUF", model_file="mistral-7b-instruct-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=20)
 
